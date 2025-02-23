@@ -1,27 +1,29 @@
 package com.teamservice.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.util.UUID;
 
-@Getter
-@Setter
+
 @AllArgsConstructor
 @NoArgsConstructor
-public class Player
-{
-    private Long playerId;
-    private String playerName;
-    private int playerAge;
-    private String playerRole;
-    private int battingSkill;
-    private int bowlingSkill;
-    private int fieldingSkill;
+@Getter
+@Setter
+public class Player {
+
+    private UUID player_id;
+    private String name;
+    private int age;
+    private int batting_skill;
+    private int bowling_skill;
+    private int fielding_skill;
     private UUID teamId;
-    private int matchesPlayed;
-    private int runsScored;
-    private int wicketsTaken;
+    private int matches_played;
+    private int runs_scored;
+    private int wickets_taken;
 }

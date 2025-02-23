@@ -1,6 +1,8 @@
 package com.teamservice.service.impl;
 
 import com.teamservice.client.PlayerClient;
+import com.teamservice.dto.PlayerIds;
+import com.teamservice.entities.Player;
 import com.teamservice.entities.Team;
 import com.teamservice.repositories.TeamRepository;
 import com.teamservice.service.TeamService;
@@ -24,10 +26,10 @@ public class TeamServiceImpl implements TeamService
     {
         List<Team> teamList = teamRepository.findAll();
 
-        /*List<Team> teamListWithPlayers = teamList.stream().map(team -> {
+        List<Team> teamListWithPlayers = teamList.stream().map(team -> {
             team.setPlayerList(playerClient.getPlayersByTeamId(team.getTeamId()));
             return team;
-        }).collect(Collectors.toList());*/
+        }).collect(Collectors.toList());
 
         return teamList;
     }
@@ -36,7 +38,7 @@ public class TeamServiceImpl implements TeamService
     public Team getTeamByTeamId(UUID teamId)
     {
         Team team = teamRepository.findById(teamId).orElseThrow(()-> new RuntimeException("Team not found!!"));
-        //team.setPlayerList(playerClient.getPlayersByTeamId(teamId));
+        team.setPlayerList(playerClient.getPlayersByTeamId(teamId));
 
         return team;
     }
@@ -46,25 +48,54 @@ public class TeamServiceImpl implements TeamService
     {
         Team savedTeam = teamRepository.save(team);
 
-        if (team.getPlayerList() != null && !team.getPlayerList().isEmpty())
+        if (savedTeam != null && team.getPlayerIds() != null)
         {
-            //Add code to write players to player db
+            Player newPlayerAddedToTeam = new Player();
+            
+            for (UUID playerId : team.getPlayerIds().getPlayerIds())
+            {
+                newPlayerAddedToTeam.setTeamId(savedTeam.getTeamId());
+                playerClient.assignPlayer(newPlayerAddedToTeam, playerId);
+            }
+            return this.getTeamByTeamId(savedTeam.getTeamId());
         }
         return savedTeam;
     }
 
     @Override
-    public int addPlayerToTeam(UUID playerId) {
-        return 0;
+    public Team addPlayerToTeam(UUID teamId, PlayerIds playerIds)
+    {
+        Player player = new Player();
+
+        if (playerIds != null && playerIds.getPlayerIds() != null && !playerIds.getPlayerIds().isEmpty())
+        {
+            for (UUID playerId : playerIds.getPlayerIds())
+            {
+                player.setTeamId(teamId);
+                playerClient.assignPlayer(player, playerId);
+            }
+        }
+        return this.getTeamByTeamId(teamId);
     }
 
     @Override
-    public int removePlayerFromTeam(UUID playerId) {
-        return 0;
+    public Team removePlayerFromTeam(UUID teamId, PlayerIds playerIds)
+    {
+        Player player = new Player();
+
+        if (playerIds != null && playerIds.getPlayerIds() != null && !playerIds.getPlayerIds().isEmpty())
+        {
+            for (UUID playerId : playerIds.getPlayerIds())
+            {
+                player.setTeamId(teamId);
+                playerClient.assignPlayer(player, null);
+            }
+        }
+        return this.getTeamByTeamId(teamId);
     }
 
     @Override
-    public String updateTeam(UUID teamId, Team updatedTeam)
+    public Team updateTeam(UUID teamId, Team updatedTeam)
     {
         Team team = this.getTeamByTeamId(teamId);
 
@@ -76,12 +107,13 @@ public class TeamServiceImpl implements TeamService
 
             teamRepository.save(team);
 
-            if (team.getPlayerList() != null && !team.getPlayerList().isEmpty())
+            if (team.getPlayerIds() != null && team.getPlayerIds().getPlayerIds() != null
+            && !team.getPlayerIds().getPlayerIds().isEmpty())
             {
-                //update player table by calling player service
+                this.addPlayerToTeam(team.getTeamId(), team.getPlayerIds());
             }
         }
-        return "";
+        return this.getTeamByTeamId(team.getTeamId());
     }
 
     @Override

@@ -1,5 +1,7 @@
 package com.teamservice.service;
 
+import com.teamservice.dto.PlayerIds;
+import com.teamservice.entities.Player;
 import com.teamservice.entities.Team;
 
 import java.util.List;
@@ -13,11 +15,11 @@ public interface TeamService
 
     Team createTeam(Team team);
 
-    int addPlayerToTeam(UUID playerId);
+    Team addPlayerToTeam(UUID teamId, PlayerIds playerIds);
 
-    int removePlayerFromTeam(UUID playerId);
+    Team removePlayerFromTeam(UUID teamId, PlayerIds playerIds);
 
-    String updateTeam(UUID teamId, Team updatedTeam);
+    Team updateTeam(UUID teamId, Team updatedTeam);
 
     String deleteTeam(UUID teamId);
 }

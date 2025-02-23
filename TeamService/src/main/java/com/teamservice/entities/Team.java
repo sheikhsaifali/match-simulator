@@ -1,5 +1,6 @@
 package com.teamservice.entities;
 
+import com.teamservice.dto.PlayerIds;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,6 +26,8 @@ public class Team
     private String teamName;
     @Transient
     private List<Player> playerList;
+    @Transient
+    private PlayerIds playerIds;
     private int matchesWon;
     private int matchesLost;
 }
