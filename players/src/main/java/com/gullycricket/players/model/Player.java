@@ -25,9 +25,10 @@ public class Player {
     private int batting_skill;
     private int bowling_skill;
     private int fielding_skill;
-    @Column(updatable = true, nullable = true)
-    private UUID team_id;
+    @Column(name ="team_id", updatable = true, nullable = true)
+    private UUID teamId;
     private int matches_played;
     private int runs_scored;
     private int wickets_taken;
+    private String roles;
 }

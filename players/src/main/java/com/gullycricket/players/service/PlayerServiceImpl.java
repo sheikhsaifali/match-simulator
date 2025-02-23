@@ -53,8 +53,14 @@ public class PlayerServiceImpl implements PlayerService{
         Player playerSaved = getPlayer(player_id);
         if(playerSaved != null && player != null)
         {
-            playerSaved.setTeam_id(player.getTeam_id());
+            playerSaved.setTeamId(player.getTeamId());
+            playerRepository.save(playerSaved);
         }
         return (playerSaved != null) ? "Saved":"Not Saved";
+    }
+
+    @Override
+    public List<Player> getPlayersByTeamId(UUID team_id) {
+        return playerRepository.findByTeamId(team_id);
     }
 }

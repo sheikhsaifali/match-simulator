@@ -15,4 +15,6 @@ public interface PlayerService {
     String createPlayer(Player player);
     String updatePlayer(Player player, UUID player_id);
     String assignPlayer(Player player, UUID player_id);
+
+    List<Player> getPlayersByTeamId(UUID team_id);
 }

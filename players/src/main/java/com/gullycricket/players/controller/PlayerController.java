@@ -43,4 +43,9 @@ public class PlayerController {
         String response = service.assignPlayer(player, player_id);
         return response.equals("Saved")?ResponseEntity.ok(HttpStatus.OK):ResponseEntity.ok(HttpStatus.EXPECTATION_FAILED);
     }
+    @GetMapping("players/team/{team_id}")
+    public List<Player> getPlayersByTeamId(@PathVariable UUID team_id)
+    {
+        return service.getPlayersByTeamId(team_id);
+    }
 }
