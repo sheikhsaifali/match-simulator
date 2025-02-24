@@ -1,7 +1,6 @@
 package com.teamservice.service;
 
 import com.teamservice.dto.PlayerIds;
-import com.teamservice.entities.Player;
 import com.teamservice.entities.Team;
 
 import java.util.List;

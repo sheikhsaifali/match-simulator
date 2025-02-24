@@ -1,7 +1,6 @@
 package com.teamservice.controller;
 
 import com.teamservice.dto.PlayerIds;
-import com.teamservice.entities.Player;
 import com.teamservice.entities.Team;
 import com.teamservice.service.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +50,12 @@ public class TeamController
     public Team updateTeam(@PathVariable UUID teamId, @RequestBody Team updatedTeam)
     {
         return teamService.updateTeam(teamId, updatedTeam);
+    }
+
+    @DeleteMapping("/{teamId}")
+    public String deleteTeamByTeamId(@PathVariable UUID teamId)
+    {
+        return teamService.deleteTeam(teamId);
     }
 
 }

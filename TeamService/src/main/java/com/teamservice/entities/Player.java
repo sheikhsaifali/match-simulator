@@ -1,11 +1,9 @@
 package com.teamservice.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.UUID;
 
@@ -26,4 +24,5 @@ public class Player {
     private int matches_played;
     private int runs_scored;
     private int wickets_taken;
+    private String roles;
 }
