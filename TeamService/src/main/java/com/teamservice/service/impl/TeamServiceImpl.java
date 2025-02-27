@@ -9,6 +9,7 @@ import com.teamservice.service.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -117,7 +118,22 @@ public class TeamServiceImpl implements TeamService
     }
 
     @Override
-    public String deleteTeam(UUID teamId) {
-        return "";
+    public String deleteTeam(UUID teamId)
+    {
+        Team team = this.getTeamByTeamId(teamId);
+        List<UUID> playerIdList = new ArrayList<>();
+
+        for (Player player : team.getPlayerList())
+        {
+            playerIdList.add(player.getPlayer_id());
+        }
+
+        PlayerIds playerIds = new PlayerIds();
+        playerIds.setPlayerIds(playerIdList);
+
+        this.removePlayerFromTeam(teamId, playerIds);
+        teamRepository.delete(team);
+
+        return "Team Deleted Successfully!!";
     }
 }

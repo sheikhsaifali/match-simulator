@@ -1,5 +1,6 @@
 package com.teamservice.entities;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.teamservice.dto.PlayerIds;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -16,6 +17,7 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Team
 {
     @Id
